@@ -13,7 +13,7 @@ const sendButton = document.querySelector(".send-button");
 const historyButton = document.querySelector("#getHistory");
 const displayContainer = document.querySelector(".display-container");
 
-sendButton.addEventListener("click", () => {
+historyButton.addEventListener("click", () => {
     const param = {
         name: 'asfha_1',
         root: "20211102_56"
@@ -21,12 +21,12 @@ sendButton.addEventListener("click", () => {
     socket.emit("history", param);
 })
 
-historyButton.addEventListener("click", () => {
+sendButton.addEventListener("click", () => {
     const param = {
         name: nickname,
         msg: chatInput.value
     }
-    socket.emit("history", param);
+    socket.emit("chatting", param);
     chatInput.value="";
 })
 

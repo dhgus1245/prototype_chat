@@ -38,8 +38,7 @@ io.on("connection", (socket) => {
     socket.on("chat_list", (data) => {
         
         var p1 = new Promise(function(resolve, reject) {
-            resolve(connetMysql.dbTest());
-            console.log("q");
+            connetMysql.dbTest()
             // my function here
           });
           
