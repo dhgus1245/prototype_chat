@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- <script src="/socket.io/socket.io.js"></script> --> 
+    <div class="wrapper">
+        <div class="user-container">
+            <label for="nickname"></label>
+            <input type="text" id="nickname" readonly>
+        </div>
+        <div class="display-container">
+            <ul class="chatting-list">
+                <button id="getHistory">대화내용 불러오기</button>
+            </ul>
+        </div>
+        <div class="input-container">
+           
+                <input type="text" class="chatting-input"
+                    onkeyup="if(window.event.keyCode==13){inputPress()}">
+                <button class="send-button">전송</button>
+            
+        </div>
+
+    </div> 
+    <script>
+        function inputPress(){
+            document.getElementsByClassName('send-button')[0].click();
+        }
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js" integrity="sha512-zN6KYOtONNTOGXz0RkWX2EpavN9VdIs+2w+To+fhciFv83YA9maUpi2lzZWrOfKXdFIZZomWufBznkyHi3a8oQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="../js/chat.js"></script>
+
+</body>
+</html>
