@@ -35,10 +35,10 @@ app.get('/main/chat', (req, res) => {
 
 // =============================== SOCKET ==================================
 io.on("connection", (socket) => {
-    socket.on("chat_list", (data) => {
-        
+    
+  socket.on("chat_list", (data) => {
         var p1 = new Promise(function(resolve, reject) {
-            connetMysql.dbTest()
+            resolve(connetMysql.dbTest());
             // my function here
           });
           
@@ -49,9 +49,6 @@ io.on("connection", (socket) => {
             console.error("chat_list error : "+ err); // Error 출력
           });;
     })
-
-   
-    
     socket.on("chatting", (data) => {
         const{ name, msg } = data;
         const time =  moment(new Date()).format("h:mm A");
@@ -76,7 +73,9 @@ io.on("connection", (socket) => {
             if(!fs.existsSync(folderDir)){
                 fs.mkdirSync(folderDir);
             }
-            fs.writeFile(folderDir+'/'+name+'_'+count+'.json', chatList.toString() ,'utf8', function(error, data){
+            
+            console.log(JSON.stringify(chatList));
+            fs.writeFile(folderDir+'/'+name+'_'+count+'.json', JSON.stringify(chatList),'utf8', function(error, data){
                 if (error) {throw error};
                 console.log("ASync Write Complete");
             });
@@ -85,24 +84,21 @@ io.on("connection", (socket) => {
         }
     })
 
-    socket.on("chat_list", (data) => {
+    // JSON 불러오기
+    socket.on("history", (data) => {
+        const{ name, root } = data;
+        fs.readFile(savePath+'/'+root+'/'+name+'.json',(err, getHistory) =>{
+            if(err) throw err;
+            const history = JSON.parse(getHistory);
+            io.emit("chatting_history", {
+                history
+            });
+        })
         
-        var p1 = new Promise(function(resolve, reject) {
-            resolve(connetMysql.dbTest());
-            console.log("q");
-            // my function here
-          });
-          
-          p1.then(function(result){
-            // my result(resolve)
-            io.emit("chat_list", result);
-          }).catch(function(err) {//reject
-            console.error("chat_list error : "+ err); // Error 출력
-          });;
     })
-
+    
 })
 
 // =============================== PORT, SERVER ==================================
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, ()=>console.log('server is running and port '+PORT))
+server.listen(PORT, ()=>console.log('server is running and port '+PORT));

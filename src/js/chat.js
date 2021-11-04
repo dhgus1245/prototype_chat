@@ -15,8 +15,8 @@ const displayContainer = document.querySelector(".display-container");
 
 historyButton.addEventListener("click", () => {
     const param = {
-        name: 'asfha_1',
-        root: "20211102_56"
+        name: 'asdg_1',
+        root: "20211103_35"
     }
     socket.emit("history", param);
 })
@@ -35,6 +35,15 @@ socket.on("chatting", (data) => {
     const {name, msg, time} = data;
     const item = new liModel(name, msg, time);
     item.makeLi();
+    displayContainer.scrollTo(0, displayContainer.scrollHeight)
+})
+
+socket.on("chatting_history", (data) => {
+    const history = data.history
+    for (let index = 0; index < history.length; index++) {
+        const item = new liModel( history[index].name, history[index].msg, history[index].time);
+        item.makeLi();
+    }  
     displayContainer.scrollTo(0, displayContainer.scrollHeight)
 })
 
